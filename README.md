@@ -7,8 +7,8 @@ serves its own byte-identical copies.
 
 | File | Bytes | SHA-256 |
 | --- | --- | --- |
-| [`EnigmaticRed-Setup.exe`](EnigmaticRed-Setup.exe) | 7,694,684 | `6338a728836d8e847d6c48c11161ce8267caac193e57b1ca1fcd8ae21787b047` |
-| [`enigmatic_red-0.1.0b1-py3-none-any.whl`](enigmatic_red-0.1.0b1-py3-none-any.whl) | 329,927 | `f20d32c890df6de4d9763fc7f9ec366f45c3c6df6d4bff9f31cb444ba04d808e` |
+| [`EnigmaticRed-Setup.exe`](EnigmaticRed-Setup.exe) | 7,693,829 | `7ce3d70702c9701fd2af80999d3a0426fd526b28bcb14694a03913b392294be3` |
+| [`enigmatic_red-0.1.0b1-py3-none-any.whl`](enigmatic_red-0.1.0b1-py3-none-any.whl) | 330,301 | `89ea5c6fba6f0cdcda65edb8d97a9005c2f77dd242b7c9f96001fe12ecd04c5c` |
 
 Both are attached to the [v0.1.0b1 release](../../releases/tag/v0.1.0b1) as well,
 which is what a download click on the site resolves to. `SHA256SUMS.txt` carries
