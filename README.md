@@ -7,10 +7,10 @@ serves its own byte-identical copies.
 
 | File | Bytes | SHA-256 |
 | --- | --- | --- |
-| [`EnigmaticRed-Setup.exe`](EnigmaticRed-Setup.exe) | 7,693,829 | `7ce3d70702c9701fd2af80999d3a0426fd526b28bcb14694a03913b392294be3` |
-| [`enigmatic_red-0.1.0b1-py3-none-any.whl`](enigmatic_red-0.1.0b1-py3-none-any.whl) | 330,301 | `89ea5c6fba6f0cdcda65edb8d97a9005c2f77dd242b7c9f96001fe12ecd04c5c` |
+| [`EnigmaticRed-Setup.exe`](EnigmaticRed-Setup.exe) | 7,696,322 | `b34d76399c9027966bb30101b11552bffa25d9588ff3f3f837fa442edf4a98f0` |
+| [`enigmatic_red-0.1.0b1-py3-none-any.whl`](enigmatic_red-0.1.0b1-py3-none-any.whl) | 339,464 | `63de6dccc9276a8e8c44461f187914770551973c39db8812c19fea31f2cdfe0c` |
 
-Both are attached to the [v0.1.0b1 release](../../releases/tag/v0.1.0b1) as well,
+Both are attached to the [v0.1.0b1-2 release](../../releases/tag/v0.1.0b1-2) as well,
 which is what a download click on the site resolves to. `SHA256SUMS.txt` carries
 the same two numbers in the format `sha256sum -c` reads.
 
