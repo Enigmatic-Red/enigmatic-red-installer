@@ -7,10 +7,10 @@ serves its own byte-identical copies.
 
 | File | Bytes | SHA-256 |
 | --- | --- | --- |
-| [`EnigmaticRed-Setup.exe`](EnigmaticRed-Setup.exe) | 7,698,545 | `89b7102d9b7807df37caf4f5ebee23529bc5553fcfd948322d6250cbaf10de0c` |
-| [`enigmatic_red-0.1.0b2-py3-none-any.whl`](enigmatic_red-0.1.0b2-py3-none-any.whl) | 475,374 | `7b593e5e9787443ea304798d3825154dd1bc57ae770ac29ae9f340e4ebd033bd` |
+| [`EnigmaticRed-Setup.exe`](EnigmaticRed-Setup.exe) | 7,699,273 | `af60e00d2f3f1255eb0da73d044f849254162a1dccd86a5fa2eba187d1331c9e` |
+| [`enigmatic_red-0.1.0b3-py3-none-any.whl`](enigmatic_red-0.1.0b3-py3-none-any.whl) | 488,101 | `953c85faa6f51d82dca58e072db11f02ce31039920211a7c8904707f75363370` |
 
-Both are attached to the [v0.1.0b2 release](../../releases/tag/v0.1.0b2) as well,
+Both are attached to the [v0.1.0b3 release](../../releases/tag/v0.1.0b3) as well,
 which is what a download click on the site resolves to. `SHA256SUMS.txt` carries
 the same two numbers in the format `sha256sum -c` reads, and is byte-identical to
 the one the site serves.
@@ -34,20 +34,36 @@ authorisation for the target you own before any active assessment. The installer
 is not a sandbox: intrusive actions still require your approval, and every run
 and refusal is written to the audit log.
 
-The installer fetches `enigmatic_red-0.1.0b2-py3-none-any.whl` from
+The installer fetches `enigmatic_red-0.1.0b3-py3-none-any.whl` from
 `enigmaticred.com/assets/` and checks it against a digest compiled into the
 executable, so a tampered wheel fails the install rather than running.
 
-## What changed in 0.1.0b2
+## What changed in 0.1.0b3
 
-This build adds the corpus importer and cited retrieval. OWASP WSTG 4.2, ASVS
-5.0.0, CWE 5.0, the NIST NVD recent feed, Juliet 1.3, XSTest, AdvBench,
-HarmBench, deepset prompt-injections and InjecAgent are acquired, licence-gated
-and checksum-pinned on the machine that runs them; PrimeVul and an unlicensed
-jailbreak collection are recorded as blocked, with the reason, and were not
-ingested. Reference lookups cite publisher, version, URL, licence and record id,
-and retrieved text is attached as untrusted data. No corpus text is bundled, and
-evaluation fixtures never enter the retrieval index.
+This build brings cited retrieval into planning, not only chat. When an
+objective names a weakness, the planning prompt may carry at most two
+licence-reviewed records from the local store - OWASP WSTG 4.2, ASVS 5.0.0,
+CWE 5.0 or the NIST NVD recent feed - each with publisher, version, URL,
+licence and record id. The block is marked untrusted and advisory: a reference
+describes a weakness class, never evidence that a target has it, and every claim
+still needs the audit run id of the step behind it. The same corpus remains
+available in the chat surface.
+
+The local ranker behind both surfaces now splits compound terms, so a query
+spelled "cross-site request forgery" finds the guide heading spelled "cross
+site"; scores with BM25, so a term in most records counts for little and a long
+record does not win by length; drops a hit worth less than a quarter of the best
+one; and limits one corpus to two of the three results, so three near-identical
+advisories cannot fill an answer. `corpora/retrieval_eval.py` measures that
+against the ranker it replaced on a synthetic first-party set (24 records, 11
+labelled queries): precision@3 0.846 vs 0.750, recall@3 0.957 vs 0.913,
+citation completeness 11/11. Those are lexical retrieval numbers, not a model
+benchmark.
+
+No corpus text is bundled with the wheel, evaluation fixtures never enter the
+retrieval index, and the release check refuses a wheel that carries the private
+tier. The full suite (1,588 tests), the page generators and the corpus manifest
+checks pass.
 
 ## macOS and Linux — the wheel
 
@@ -57,7 +73,7 @@ installs the agent, not a model.
 ```sh
 python3 -m venv ~/.local/share/enigmaticred/venv
 ~/.local/share/enigmaticred/venv/bin/python -m pip install \
-  https://enigmaticred.com/assets/enigmatic_red-0.1.0b2-py3-none-any.whl
+  https://enigmaticred.com/assets/enigmatic_red-0.1.0b3-py3-none-any.whl
 ~/.local/share/enigmaticred/venv/bin/red init
 ```
 
