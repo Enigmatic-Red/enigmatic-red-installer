@@ -7,16 +7,19 @@ serves its own byte-identical copies.
 
 | File | Bytes | SHA-256 |
 | --- | --- | --- |
-| [`EnigmaticRed-Setup.exe`](EnigmaticRed-Setup.exe) | 7,696,322 | `b34d76399c9027966bb30101b11552bffa25d9588ff3f3f837fa442edf4a98f0` |
-| [`enigmatic_red-0.1.0b1-py3-none-any.whl`](enigmatic_red-0.1.0b1-py3-none-any.whl) | 339,464 | `63de6dccc9276a8e8c44461f187914770551973c39db8812c19fea31f2cdfe0c` |
+| [`EnigmaticRed-Setup.exe`](EnigmaticRed-Setup.exe) | 7,698,545 | `89b7102d9b7807df37caf4f5ebee23529bc5553fcfd948322d6250cbaf10de0c` |
+| [`enigmatic_red-0.1.0b2-py3-none-any.whl`](enigmatic_red-0.1.0b2-py3-none-any.whl) | 475,374 | `7b593e5e9787443ea304798d3825154dd1bc57ae770ac29ae9f340e4ebd033bd` |
 
-Both are attached to the [v0.1.0b1-2 release](../../releases/tag/v0.1.0b1-2) as well,
+Both are attached to the [v0.1.0b2 release](../../releases/tag/v0.1.0b2) as well,
 which is what a download click on the site resolves to. `SHA256SUMS.txt` carries
-the same two numbers in the format `sha256sum -c` reads.
+the same two numbers in the format `sha256sum -c` reads, and is byte-identical to
+the one the site serves.
 
-This repository holds **releases, not source**: the agent's code is not
-published. It exists so the published bytes have a home outside the web host,
-with a public history and a digest anyone can compare against the site.
+This repository holds **releases, not source**: the agent's source tree is
+private and is not published here. It exists so the published bytes have a home
+outside the web host, with a public history and a digest anyone can compare
+against the site. The wheel is the same packaged release the beta offers for
+macOS and Linux; it is the shipped product, not a checkout.
 
 ## Windows — the installer
 
@@ -31,9 +34,20 @@ authorisation for the target you own before any active assessment. The installer
 is not a sandbox: intrusive actions still require your approval, and every run
 and refusal is written to the audit log.
 
-The installer fetches `enigmatic_red-0.1.0b1-py3-none-any.whl` from
+The installer fetches `enigmatic_red-0.1.0b2-py3-none-any.whl` from
 `enigmaticred.com/assets/` and checks it against a digest compiled into the
 executable, so a tampered wheel fails the install rather than running.
+
+## What changed in 0.1.0b2
+
+This build adds the corpus importer and cited retrieval. OWASP WSTG 4.2, ASVS
+5.0.0, CWE 5.0, the NIST NVD recent feed, Juliet 1.3, XSTest, AdvBench,
+HarmBench, deepset prompt-injections and InjecAgent are acquired, licence-gated
+and checksum-pinned on the machine that runs them; PrimeVul and an unlicensed
+jailbreak collection are recorded as blocked, with the reason, and were not
+ingested. Reference lookups cite publisher, version, URL, licence and record id,
+and retrieved text is attached as untrusted data. No corpus text is bundled, and
+evaluation fixtures never enter the retrieval index.
 
 ## macOS and Linux — the wheel
 
@@ -43,7 +57,7 @@ installs the agent, not a model.
 ```sh
 python3 -m venv ~/.local/share/enigmaticred/venv
 ~/.local/share/enigmaticred/venv/bin/python -m pip install \
-  https://enigmaticred.com/assets/enigmatic_red-0.1.0b1-py3-none-any.whl
+  https://enigmaticred.com/assets/enigmatic_red-0.1.0b2-py3-none-any.whl
 ~/.local/share/enigmaticred/venv/bin/red init
 ```
 
