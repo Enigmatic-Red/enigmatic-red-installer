@@ -7,10 +7,10 @@ serves its own byte-identical copies.
 
 | File | Bytes | SHA-256 |
 | --- | --- | --- |
-| [`EnigmaticRed-Setup.exe`](EnigmaticRed-Setup.exe) | 7,699,273 | `af60e00d2f3f1255eb0da73d044f849254162a1dccd86a5fa2eba187d1331c9e` |
-| [`enigmatic_red-0.1.0b3-py3-none-any.whl`](enigmatic_red-0.1.0b3-py3-none-any.whl) | 488,101 | `953c85faa6f51d82dca58e072db11f02ce31039920211a7c8904707f75363370` |
+| [`EnigmaticRed-Setup.exe`](EnigmaticRed-Setup.exe) | 7,699,098 | `8759847e739ea119d5e6bfbbecfacaf24d3e2c9521793e6fe42d025194307844` |
+| [`enigmatic_red-0.1.0b4-py3-none-any.whl`](enigmatic_red-0.1.0b4-py3-none-any.whl) | 508,967 | `4ae0b6b7aa5b9f4646d7d0d3fa66e980f188cf715483bb648a370d3a2e82d17a` |
 
-Both are attached to the [v0.1.0b3 release](../../releases/tag/v0.1.0b3) as well,
+Both are attached to the [v0.1.0b4-5 release](../../releases/tag/v0.1.0b4-5) as well,
 which is what a download click on the site resolves to. `SHA256SUMS.txt` carries
 the same two numbers in the format `sha256sum -c` reads, and is byte-identical to
 the one the site serves.
@@ -34,36 +34,35 @@ authorisation for the target you own before any active assessment. The installer
 is not a sandbox: intrusive actions still require your approval, and every run
 and refusal is written to the audit log.
 
-The installer fetches `enigmatic_red-0.1.0b3-py3-none-any.whl` from
+The installer fetches `enigmatic_red-0.1.0b4-py3-none-any.whl` from
 `enigmaticred.com/assets/` and checks it against a digest compiled into the
 executable, so a tampered wheel fails the install rather than running.
 
-## What changed in 0.1.0b3
+## What changed in 0.1.0b4
 
-This build brings cited retrieval into planning, not only chat. When an
-objective names a weakness, the planning prompt may carry at most two
-licence-reviewed records from the local store - OWASP WSTG 4.2, ASVS 5.0.0,
-CWE 5.0 or the NIST NVD recent feed - each with publisher, version, URL,
-licence and record id. The block is marked untrusted and advisory: a reference
-describes a weakness class, never evidence that a target has it, and every claim
-still needs the audit run id of the step behind it. The same corpus remains
-available in the chat surface.
+Two defects in the shipped CLI, and one new budget level.
 
-The local ranker behind both surfaces now splits compound terms, so a query
-spelled "cross-site request forgery" finds the guide heading spelled "cross
-site"; scores with BM25, so a term in most records counts for little and a long
-record does not win by length; drops a hit worth less than a quarter of the best
-one; and limits one corpus to two of the three results, so three near-identical
-advisories cannot fill an answer. `corpora/retrieval_eval.py` measures that
-against the ranker it replaced on a synthetic first-party set (24 records, 11
-labelled queries): precision@3 0.846 vs 0.750, recall@3 0.957 vs 0.913,
-citation completeness 11/11. Those are lexical retrieval numbers, not a model
-benchmark.
+`red scan` printed only the first token of each line it parsed out of a tool's
+output, so a wrapped or padded line lost everything after it. Every parsed line
+is now printed as it arrived - which matters most where a tool prints its
+finding and its evidence on the same line.
 
-No corpus text is bundled with the wheel, evaluation fixtures never enter the
-retrieval index, and the release check refuses a wheel that carries the private
-tier. The full suite (1,588 tests), the page generators and the corpus manifest
-checks pass.
+A console script is now resolved before it is run: the interpreter's virtualenv
+and `sysconfig` script directories are checked first. A virtualenv that has an
+`httpx.EXE` beside the module used to execute that file in place of httpx;
+`red doctor` now reports the shadow instead of running it.
+
+`--budget controlled_poc` is the one budget that reaches the `exploit_safe`
+class: one exact, non-destructive proof of concept, defaulting to three
+targets, twenty minutes and twenty actions. It never reaches `forbidden`, and
+the authority chain still asks for approval - a budget says how much is
+allowed, never that it is allowed.
+
+The release check clears `build/lib` before every build and refuses a wheel
+that carries the private tier under either spelling, so a package deleted from
+the tree can no longer ship out of a stale build tree.
+
+The full suite (1,885 tests), the page generators and the digest checks pass.
 
 ## macOS and Linux — the wheel
 
@@ -73,7 +72,7 @@ installs the agent, not a model.
 ```sh
 python3 -m venv ~/.local/share/enigmaticred/venv
 ~/.local/share/enigmaticred/venv/bin/python -m pip install \
-  https://enigmaticred.com/assets/enigmatic_red-0.1.0b3-py3-none-any.whl
+  https://enigmaticred.com/assets/enigmatic_red-0.1.0b4-py3-none-any.whl
 ~/.local/share/enigmaticred/venv/bin/red init
 ```
 
