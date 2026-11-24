@@ -125,3 +125,22 @@ no certificate is configured.
 Free research release: no accounts, no billing. Active assessment runs on your
 machine, where scope, written authorisation, the guard and the audit trail apply.
 
+
+## Release history
+
+Every release is a tag with its own notes: the files that version shipped, with
+their digests, and what it could do. In summary:
+
+| Version | Published | What that version did |
+| --- | --- | --- |
+| `v0.1.0` | 2026-11-24 | First stable release. The one-file Windows installer, the same release as a wheel for macOS and Linux, bring-your-own-key by default or `--local-model` for Ollama, and three budget levels up to `controlled_poc`. |
+| `v0.1.0b5` | 2026-11-23 | Last beta: the `controlled_poc` budget, `red scan` printing every parsed line whole instead of its first token, and console scripts resolved before they run, with `red doctor` reporting a shadowed one. |
+| `v0.1.0b1` | 2026-11-14 | First public beta: the installer, the loopback agent UI, scope and written authorisation before any active assessment, and the audit log. **Unusable now** — its installer pins a wheel the site no longer serves, so it stops at the download. |
+
+The `README.md` and `SHA256SUMS.txt` inside the `v0.1.0b1` and `v0.1.0b5` tags
+are older snapshots: they print sizes and digests from builds that were
+re-uploaded before those tags were cut, and b5's still names an
+`enigmatic_red-0.1.0b4` wheel. A tag cannot be rewritten without moving it, so
+the snapshots stay. Each release's notes carry the numbers that match its
+attached files, read back from GitHub's asset records.
+
