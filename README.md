@@ -19,7 +19,7 @@ This repository holds **releases, not source**: the agent's source tree is
 private and is not published here. It exists so the published bytes have a home
 outside the web host, with a public history and a digest anyone can compare
 against the site. The wheel is the same packaged release the beta offers for
-macOS and Linux; it is the shipped product, not a checkout.
+Linux; it is the shipped product, not a checkout.
 
 ## Windows — the installer
 
@@ -64,10 +64,11 @@ sentence becomes a mission's anchor only when the target is a system and is the
 word you typed — not the model's paraphrase — and a phrase that is neither is
 answered as a question, so nothing runs.
 
-## macOS and Linux — the wheel
+## Linux — the wheel (command line)
 
 The wheel is the same release of the same agent, packaged rather than run. It
-installs the agent, not a model.
+installs the agent's command line, `red`, not the Agent UI window and not a
+model.
 
 ```sh
 python3 -m venv ~/.local/share/enigmaticred/venv
@@ -76,8 +77,13 @@ python3 -m venv ~/.local/share/enigmaticred/venv
 ~/.local/share/enigmaticred/venv/bin/red init
 ```
 
-On macOS or Linux a model is then your own: point `.env` at one you already
-run. The Windows installer is the path that sets a local model up for you.
+If your distribution marks the system Python as externally managed (PEP 668),
+install with `pipx install` or `uv tool install` against the same URL instead
+of a hand-made venv.
+
+On Linux a model is then your own: point `.env` at one you already serve. The
+Windows installer is the one path that sets a local model up for you, and the
+only one that gives you the Agent UI.
 
 ## Check what you downloaded
 
@@ -133,7 +139,7 @@ their digests, and what it could do. In summary:
 
 | Version | Published | What that version did |
 | --- | --- | --- |
-| `v0.1.0` | 2026-11-24 | First stable release. The one-file Windows installer, the same release as a wheel for macOS and Linux, bring-your-own-key by default or `--local-model` for Ollama, and three budget levels up to `controlled_poc`. |
+| `v0.1.0` | 2026-11-24 | First stable release. The one-file Windows installer, the same release as a wheel for Linux (command line), bring-your-own-key by default or `--local-model` for Ollama, and three budget levels up to `controlled_poc`. |
 | `v0.1.0b5` | 2026-11-23 | Last beta: the `controlled_poc` budget, `red scan` printing every parsed line whole instead of its first token, and console scripts resolved before they run, with `red doctor` reporting a shadowed one. |
 | `v0.1.0b1` | 2026-11-14 | First public beta: the installer, the loopback agent UI, scope and written authorisation before any active assessment, and the audit log. **Unusable now** — its installer pins a wheel the site no longer serves, so it stops at the download. |
 
