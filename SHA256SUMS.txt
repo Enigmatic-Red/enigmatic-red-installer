@@ -1,2 +1,2 @@
-8759847e739ea119d5e6bfbbecfacaf24d3e2c9521793e6fe42d025194307844  EnigmaticRed-Setup.exe
-4ae0b6b7aa5b9f4646d7d0d3fa66e980f188cf715483bb648a370d3a2e82d17a  enigmatic_red-0.1.0b4-py3-none-any.whl
+2b2ff3027fddef3a130a72ce0f1b6ab1e9a30696d9ffb83b8f48de06a9d8b1ce  EnigmaticRed-Setup.exe
+eee1165f5bf751351122a13b4dea565d1350d73d9eca2b06e68de88c8d372eae  enigmatic_red-0.1.0-py3-none-any.whl

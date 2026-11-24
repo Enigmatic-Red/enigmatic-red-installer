@@ -1,16 +1,16 @@
-# Enigmatic Red — the beta installer
+# Enigmatic Red — the installer
 
-The files the [Enigmatic Red](https://enigmaticred.com/) research-lab beta offers
-for download, kept in a public repository as well as on the site. The download
-buttons on <https://enigmaticred.com/#beta> lead here first; the site still
-serves its own byte-identical copies.
+The files the [Enigmatic Red](https://enigmaticred.com/) research-lab release
+offers for download, kept in a public repository as well as on the site. The
+download buttons on <https://enigmaticred.com/#beta> lead here first; the site
+still serves its own byte-identical copies.
 
 | File | Bytes | SHA-256 |
 | --- | --- | --- |
-| [`EnigmaticRed-Setup.exe`](EnigmaticRed-Setup.exe) | 7,699,098 | `8759847e739ea119d5e6bfbbecfacaf24d3e2c9521793e6fe42d025194307844` |
-| [`enigmatic_red-0.1.0b4-py3-none-any.whl`](enigmatic_red-0.1.0b4-py3-none-any.whl) | 508,967 | `4ae0b6b7aa5b9f4646d7d0d3fa66e980f188cf715483bb648a370d3a2e82d17a` |
+| [`EnigmaticRed-Setup.exe`](EnigmaticRed-Setup.exe) | 7,703,969 | `2b2ff3027fddef3a130a72ce0f1b6ab1e9a30696d9ffb83b8f48de06a9d8b1ce` |
+| [`enigmatic_red-0.1.0-py3-none-any.whl`](enigmatic_red-0.1.0-py3-none-any.whl) | 525,992 | `eee1165f5bf751351122a13b4dea565d1350d73d9eca2b06e68de88c8d372eae` |
 
-Both are attached to the [v0.1.0b4-5 release](../../releases/tag/v0.1.0b4-5) as well,
+Both are attached to the [v0.1.0 release](../../releases/tag/v0.1.0) as well,
 which is what a download click on the site resolves to. `SHA256SUMS.txt` carries
 the same two numbers in the format `sha256sum -c` reads, and is byte-identical to
 the one the site serves.
@@ -25,44 +25,44 @@ macOS and Linux; it is the shipped product, not a checkout.
 
 `EnigmaticRed-Setup.exe` is the one file that installs everything. One
 double-click installs Python if the machine has none, the agent, the local UI
-server and a local model, and adds separate Terminal and **Enigmatic Red (Agent
-UI)** shortcuts. The Agent UI binds to loopback and uses that install's scope,
+server, and writes one **Enigmatic Red** shortcut to the Start Menu and the
+Desktop. The Agent UI binds to loopback and uses that install's scope,
 authorization, safety guard and audit log.
+
+A model is bring-your-own by default: the installer writes the BYOK keys and an
+OpenAI-compatible endpoint into `.env`. Ollama and local weights are installed
+only when `--local-model` is asked for, and the tag pulled is `--model`
+(`llama3.2:3b` unless overridden). `EnigmaticRed-Setup.exe --dry-run` prints the
+whole plan and changes nothing; `--help` lists the rest.
 
 Its first-run setup asks you to review the scope and record written
 authorisation for the target you own before any active assessment. The installer
 is not a sandbox: intrusive actions still require your approval, and every run
 and refusal is written to the audit log.
 
-The installer fetches `enigmatic_red-0.1.0b4-py3-none-any.whl` from
+The installer fetches `enigmatic_red-0.1.0-py3-none-any.whl` from
 `enigmaticred.com/assets/` and checks it against a digest compiled into the
-executable, so a tampered wheel fails the install rather than running.
+executable, so a tampered wheel fails the install rather than running. It needs
+no elevation: the private venv and the download cache live in
+`%LOCALAPPDATA%\EnigmaticRed`, per user, and nothing is registered with
+Add/Remove Programs.
 
-## What changed in 0.1.0b4
+## What changed in 0.1.0
 
-Two defects in the shipped CLI, and one new budget level.
+0.1.0 is the first release that is not a beta. The installer and the wheel are
+built from one tree and pinned to each other by digest, a CI job installs the
+published wheel into a fresh environment and drives the interface before the tag
+is worth cutting, and `COMPATIBILITY.md` writes down what 0.1.x keeps — the
+command line, the exit codes, the config home, the audit log and the
+distribution.
 
-`red scan` printed only the first token of each line it parsed out of a tool's
-output, so a wrapped or padded line lost everything after it. Every parsed line
-is now printed as it arrived - which matters most where a tool prints its
-finding and its evidence on the same line.
-
-A console script is now resolved before it is run: the interpreter's virtualenv
-and `sysconfig` script directories are checked first. A virtualenv that has an
-`httpx.EXE` beside the module used to execute that file in place of httpx;
-`red doctor` now reports the shadow instead of running it.
-
-`--budget controlled_poc` is the one budget that reaches the `exploit_safe`
-class: one exact, non-destructive proof of concept, defaulting to three
-targets, twenty minutes and twenty actions. It never reaches `forbidden`, and
-the authority chain still asks for approval - a budget says how much is
-allowed, never that it is allowed.
-
-The release check clears `build/lib` before every build and refuses a wheel
-that carries the private tier under either spelling, so a package deleted from
-the tree can no longer ship out of a stale build tree.
-
-The full suite (1,885 tests), the page generators and the digest checks pass.
+Carried in from the last beta (0.1.0b5): setup writes and saves the scope as
+YAML where you are standing, the sidebar's scope card can be edited and reloaded
+in place, and a turn that asks what your configured scope allows answers from
+the chain in force instead of sending you to a terminal. A reading of your
+sentence becomes a mission's anchor only when the target is a system and is the
+word you typed — not the model's paraphrase — and a phrase that is neither is
+answered as a question, so nothing runs.
 
 ## macOS and Linux — the wheel
 
@@ -72,7 +72,7 @@ installs the agent, not a model.
 ```sh
 python3 -m venv ~/.local/share/enigmaticred/venv
 ~/.local/share/enigmaticred/venv/bin/python -m pip install \
-  https://enigmaticred.com/assets/enigmatic_red-0.1.0b4-py3-none-any.whl
+  https://enigmaticred.com/assets/enigmatic_red-0.1.0-py3-none-any.whl
 ~/.local/share/enigmaticred/venv/bin/red init
 ```
 
@@ -111,14 +111,17 @@ There are two ways round it:
 
 When the build does sign the file, the signature is checkable with
 `Get-AuthenticodeSignature`, and the digest will change because a signature
-changes the bytes.
+changes the bytes. `installer/sign.ps1` in the source tree is that hook: it runs
+inside the build before the digest is computed, and skips with a sentence when
+no certificate is configured.
 
-## The beta itself
+## The release itself
 
 - Product page and scope: <https://enigmaticred.com/>
 - Download section: <https://enigmaticred.com/#beta>
 - Hosted chat, questions only, bring your own model key: <https://beta.enigmaticred.com/>
 - Terms and privacy: <https://enigmaticred.com/terms/>, <https://enigmaticred.com/privacy/>
 
-Free research beta: no accounts, no billing. Active assessment runs on your
+Free research release: no accounts, no billing. Active assessment runs on your
 machine, where scope, written authorisation, the guard and the audit trail apply.
+
