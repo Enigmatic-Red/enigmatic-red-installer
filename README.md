@@ -7,8 +7,8 @@ still serves its own byte-identical copies.
 
 | File | Bytes | SHA-256 |
 | --- | --- | --- |
-| [`EnigmaticRed-Setup.exe`](EnigmaticRed-Setup.exe) | 7,704,726 | `fd24ef4fcb92ed5beabf3c637aeb0955d4ee6f4caa8734b8f2d4913bccb5f268` |
-| [`enigmatic_red-0.1.0-py3-none-any.whl`](enigmatic_red-0.1.0-py3-none-any.whl) | 534,481 | `7e8d909d09a7700412df64b5236eb3ec59b13445d62f24bfb421495fbc5d4c76` |
+| [`EnigmaticRed-Setup.exe`](EnigmaticRed-Setup.exe) | 7,714,275 | `4d2d4a1bbdc55abccea31cf99150919a506e68a9ba5af6d11551922e4e391c97` |
+| [`enigmatic_red-0.1.0-py3-none-any.whl`](enigmatic_red-0.1.0-py3-none-any.whl) | 539,508 | `7f5d5bda5d9a0b3ea7fc023b66a234c6f57009b4c6c0812c95f3049bb8c5a24e` |
 
 Both are attached to the [v0.1.0 release](../../releases/tag/v0.1.0) as well,
 which is what a download click on the site resolves to. `SHA256SUMS.txt` carries
@@ -29,11 +29,13 @@ server, and writes one **Enigmatic Red** shortcut to the Start Menu and the
 Desktop. The Agent UI binds to loopback and uses that install's scope,
 authorization, safety guard and audit log.
 
-A model is bring-your-own by default: the installer writes the BYOK keys and an
-OpenAI-compatible endpoint into `.env`. Ollama and local weights are installed
-only when `--local-model` is asked for, and the tag pulled is `--model`
-(`llama3.2:3b` unless overridden). `EnigmaticRed-Setup.exe --dry-run` prints the
-whole plan and changes nothing; `--help` lists the rest.
+Local Ollama is the default: the installer downloads the CPU-friendly
+`llama3.2:3b` model (about 2 GB) and writes local endpoint/model settings.
+`--byok` instead configures Featherless and downloads no model weights. The
+installed Agent UI also offers other OpenAI-compatible provider presets and
+custom endpoints, editable model IDs and optional model discovery. Hosted
+providers must support Chat Completions; agent runs also need tool calling.
+`EnigmaticRed-Setup.exe --dry-run` prints the whole plan before it begins.
 
 Its first-run setup asks you to review the scope and record written
 authorisation for the target you own before any active assessment. The installer
@@ -55,6 +57,8 @@ published wheel into a fresh environment and drives the interface before the tag
 is worth cutting, and `COMPATIBILITY.md` writes down what 0.1.x keeps — the
 command line, the exit codes, the config home, the audit log and the
 distribution.
+
+Fresh installs now default to local Ollama (`llama3.2:3b`). The desktop API & Models screen can switch between Ollama, OpenAI-compatible provider presets, or a custom endpoint, and lets the operator edit both model IDs and discover available models. The key stays in local configuration and is never returned to the page.
 
 Carried in from the last beta (0.1.0b5): setup writes and saves the scope as
 YAML where you are standing, the sidebar's scope card can be edited and reloaded
@@ -89,9 +93,11 @@ If your distribution marks the system Python as externally managed (PEP 668),
 install with `pipx install` or `uv tool install` against the same URL instead
 of a hand-made venv.
 
-On Linux a model is then your own: point `.env` at one you already serve. The
-Windows installer is the one path that sets a local model up for you, and the
-only one that gives you the Agent UI.
+The wheel defaults to local Ollama but does not install the Ollama service or
+pull model weights. Install Ollama and pull `llama3.2:3b`, or configure an
+OpenAI-compatible endpoint in `.env`; `red key` stores your hosted credential
+without putting it in an argument. The Windows installer is the one-click local
+model setup and the only release that includes the Agent UI window.
 
 ## Check what you downloaded
 
@@ -147,7 +153,7 @@ their digests, and what it could do. In summary:
 
 | Version | Published | What that version did |
 | --- | --- | --- |
-| `v0.1.0` | 2026-11-24 | First stable release. The one-file Windows installer, the same release as a wheel for Linux (command line), bring-your-own-key by default or `--local-model` for Ollama, and three budget levels up to `controlled_poc`. Rebuilt 2026-11-25 with the `command` capability; the files and digests above are that build. |
+| `v0.1.0` | 2026-11-25 | Corrected stable build under the existing tag: local Ollama by default, configurable OpenAI-compatible providers/endpoints/models, API-key controls, and the same release wheel for Linux CLI. Includes the guarded command feature; the files and digests above are this build. |
 | `v0.1.0b5` | 2026-11-23 | Last beta: the `controlled_poc` budget, `red scan` printing every parsed line whole instead of its first token, and console scripts resolved before they run, with `red doctor` reporting a shadowed one. |
 | `v0.1.0b1` | 2026-11-14 | First public beta: the installer, the loopback agent UI, scope and written authorisation before any active assessment, and the audit log. **Unusable now** — its installer pins a wheel the site no longer serves, so it stops at the download. |
 
