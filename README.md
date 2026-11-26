@@ -7,13 +7,21 @@ still serves its own byte-identical copies.
 
 | File | Bytes | SHA-256 |
 | --- | --- | --- |
-| [`EnigmaticRed-Setup.exe`](EnigmaticRed-Setup.exe) | 7,714,275 | `4d2d4a1bbdc55abccea31cf99150919a506e68a9ba5af6d11551922e4e391c97` |
-| [`enigmatic_red-0.1.0-py3-none-any.whl`](enigmatic_red-0.1.0-py3-none-any.whl) | 539,508 | `7f5d5bda5d9a0b3ea7fc023b66a234c6f57009b4c6c0812c95f3049bb8c5a24e` |
+| [`EnigmaticRed-Setup.exe`](EnigmaticRed-Setup.exe) | 7,768,438 | `0e2f53a09949fec313a469f0b2393442a962f66fcd1849a00a2a61647d71550f` |
+| [`enigmatic_red-0.1.0-py3-none-any.whl`](enigmatic_red-0.1.0-py3-none-any.whl) | 538,245 | `4c3917959d7d6910bdf5ed915547ce607068ecccdbeb8b2c724f45b2bc6f26cc` |
+| [`SHA256SUMS.txt`](../../releases/download/v0.1.0/SHA256SUMS.txt) | 192 | `08f284bcc8ef5638fff6fa4e4c43e8f757265fdb7d4c23421cd3033b0db09c17` |
 
 Both are attached to the [v0.1.0 release](../../releases/tag/v0.1.0) as well,
 which is what a download click on the site resolves to. `SHA256SUMS.txt` carries
 the same two numbers in the format `sha256sum -c` reads, and is byte-identical to
 the one the site serves.
+
+The shipped scope is limited to `localhost` and `127.0.0.1`. The ignored,
+operator-local `config/scope.yaml` is excluded from the wheel, which ships only
+the loopback-only `config/scope.example.yaml` template. The supplied logo is
+bundled into the Windows installer and shortcuts and shown in the Agent UI; the
+desktop interface has a more colorful responsive treatment, with motion disabled
+for reduced-motion preferences.
 
 This repository holds **releases, not source**: the agent's source tree is
 private and is not published here. It exists so the published bytes have a home
@@ -153,7 +161,7 @@ their digests, and what it could do. In summary:
 
 | Version | Published | What that version did |
 | --- | --- | --- |
-| `v0.1.0` | 2026-11-25 | Corrected stable build under the existing tag: local Ollama by default, configurable OpenAI-compatible providers/endpoints/models, API-key controls, and the same release wheel for Linux CLI. Includes the guarded command feature; the files and digests above are this build. |
+| `v0.1.0` | 2026-11-25 | Corrected stable build under the existing tag: local Ollama by default, configurable OpenAI-compatible providers/endpoints/models, API-key controls, and the same release wheel for Linux CLI. Includes the guarded command feature, loopback-only shipped scope, the supplied installer/UI logo, and a refreshed responsive desktop interface; the files and digests above are this build. |
 | `v0.1.0b5` | 2026-11-23 | Last beta: the `controlled_poc` budget, `red scan` printing every parsed line whole instead of its first token, and console scripts resolved before they run, with `red doctor` reporting a shadowed one. |
 | `v0.1.0b1` | 2026-11-14 | First public beta: the installer, the loopback agent UI, scope and written authorisation before any active assessment, and the audit log. **Unusable now** — its installer pins a wheel the site no longer serves, so it stops at the download. |
 
