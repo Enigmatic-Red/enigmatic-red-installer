@@ -7,9 +7,9 @@ still serves its own byte-identical copies.
 
 | File | Bytes | SHA-256 |
 | --- | --- | --- |
-| [`EnigmaticRed-Setup.exe`](EnigmaticRed-Setup.exe) | 7,768,438 | `0e2f53a09949fec313a469f0b2393442a962f66fcd1849a00a2a61647d71550f` |
-| [`enigmatic_red-0.1.0-py3-none-any.whl`](enigmatic_red-0.1.0-py3-none-any.whl) | 538,245 | `4c3917959d7d6910bdf5ed915547ce607068ecccdbeb8b2c724f45b2bc6f26cc` |
-| [`SHA256SUMS.txt`](../../releases/download/v0.1.0/SHA256SUMS.txt) | 192 | `08f284bcc8ef5638fff6fa4e4c43e8f757265fdb7d4c23421cd3033b0db09c17` |
+| [`EnigmaticRed-Setup.exe`](EnigmaticRed-Setup.exe) | 8,116,352 | `217acc0385df57585efa059427e4dd4ce367b3971aca4e783495bb24b2cf7398` |
+| [`enigmatic_red-0.1.0-py3-none-any.whl`](enigmatic_red-0.1.0-py3-none-any.whl) | 538,245 | `218a3a772aabefca66cca39ccb87f62ce2487567d7c32128ff13153d508ec995` |
+| [`SHA256SUMS.txt`](../../releases/download/v0.1.0/SHA256SUMS.txt) | 192 | `eb938dbc9451532fb6dd4733cab3f072ce3b7578bdb23f6686280bb65af24eae` |
 
 Both are attached to the [v0.1.0 release](../../releases/tag/v0.1.0) as well,
 which is what a download click on the site resolves to. `SHA256SUMS.txt` carries
@@ -18,10 +18,10 @@ the one the site serves.
 
 The shipped scope is limited to `localhost` and `127.0.0.1`. The ignored,
 operator-local `config/scope.yaml` is excluded from the wheel, which ships only
-the loopback-only `config/scope.example.yaml` template. The supplied logo is
-bundled into the Windows installer and shortcuts and shown in the Agent UI; the
-desktop interface has a more colorful responsive treatment, with motion disabled
-for reduced-motion preferences.
+the loopback-only `config/scope.example.yaml` template. The newly supplied transparent rotary-telephone logo (768?768 PNG) is used
+byte-for-byte in the Agent UI; a matching multi-resolution Windows icon is
+embedded in the installer and used by its shortcuts. The refreshed responsive
+desktop interface respects reduced-motion preferences.
 
 This repository holds **releases, not source**: the agent's source tree is
 private and is not published here. It exists so the published bytes have a home
